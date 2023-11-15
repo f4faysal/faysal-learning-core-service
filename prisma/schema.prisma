@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id            String @id @default(uuid())
-  email         String @unique
+  id            String  @id @default(uuid())
+  email         String  @unique
   name          String
   role          Role
   password      String
-  contactNumber String
-  address       String
-  profileImg    String
+  contactNumber String?
+  address       String?
+  profileImg    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

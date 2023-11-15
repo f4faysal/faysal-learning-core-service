@@ -1,62 +1,49 @@
-import { Role, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
-
 import { Secret } from 'jsonwebtoken';
 
+import { Role, User } from '@prisma/client';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helpers/jwtHelpers';
 import prisma from '../../../shared/prisma';
+import { ISingUpUserResponse } from './user.interface';
 
-const registerUSer = async (user: User): Promise<User> => {
+const registerUser = async (user: User): Promise<ISingUpUserResponse> => {
   if (!user.password) {
     user.password = config.default_pass as string;
   }
-  if (!user.role) {
-    user.role = Role.user;
-  }
-
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bycrypt_salt_rounds)
   );
+  user.role = Role.student;
+  user.profileImg = '';
+  user.address = '';
+  user.contactNumber = '';
 
-  const result = await prisma.user.create({ data: user });
-  return result;
-};
-const addNewAdmin = async (user: User): Promise<User> => {
-  if (!user.password) {
-    user.password = config.default_pass as string;
-  }
-  if (!user.role) {
-    user.role = Role.admin;
-  }
+  const newUser = await prisma.user.create({ data: user });
 
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bycrypt_salt_rounds)
+  const { id: userId, role }: any = newUser;
+  const accessToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
   );
 
-  const result = await prisma.user.create({ data: user });
-  return result;
-};
-const addNewUser = async (user: User): Promise<User> => {
-  if (!user.password) {
-    user.password = config.default_pass as string;
-  }
-  if (!user.role) {
-    user.role = Role.user;
-  }
-
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bycrypt_salt_rounds)
+  const refreshToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
   );
 
-  const result = await prisma.user.create({ data: user });
-  return result;
+  return {
+    newUser,
+    accessToken,
+    refreshToken,
+  };
 };
+
 const loginUser = async (payload: { email: string; password: string }) => {
   const { email, password } = payload;
 
@@ -89,12 +76,10 @@ const loginUser = async (payload: { email: string; password: string }) => {
     config.jwt.expires_in as string
   );
 
-  return accessToken;
+  return { accessToken };
 };
 
 export const UserService = {
-  registerUSer,
-  addNewAdmin,
+  registerUser,
   loginUser,
-  addNewUser,
 };

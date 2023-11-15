@@ -8,9 +8,9 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "role" "Role" NOT NULL,
     "password" TEXT NOT NULL,
-    "contactNumber" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "profileImg" TEXT NOT NULL,
+    "contactNumber" TEXT,
+    "address" TEXT,
+    "profileImg" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
