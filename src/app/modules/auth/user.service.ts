@@ -79,7 +79,13 @@ const loginUser = async (payload: { email: string; password: string }) => {
   return { accessToken };
 };
 
+const getProfile = async (userId: string): Promise<User | null> => {
+  const result = await prisma.user.findUnique({ where: { id: userId } });
+  return result;
+};
+
 export const UserService = {
   registerUser,
   loginUser,
+  getProfile,
 };

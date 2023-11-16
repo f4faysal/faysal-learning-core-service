@@ -32,7 +32,24 @@ const loginUser: RequestHandler = catchAsync(
   }
 );
 
+const getProfile: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    // Retrieve the user's _id & role from the access token
+    const { userId } = req.user as { userId: string };
+
+    const result = await UserService.getProfile(userId);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Profile fetched successfully',
+      data: result,
+    });
+  }
+);
+
 export const UserController = {
   registerUser,
   loginUser,
+  getProfile,
 };
