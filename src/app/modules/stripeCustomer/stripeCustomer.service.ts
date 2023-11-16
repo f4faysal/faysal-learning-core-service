@@ -1,37 +1,47 @@
-import { Course } from '@prisma/client';
+import { StripeCustomer } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 
-const createCourse = async (paylod: Course): Promise<Course> => {
-  const result = await prisma.course.create({ data: paylod });
+const createStripeCustomer = async (
+  paylod: StripeCustomer
+): Promise<StripeCustomer> => {
+  const result = await prisma.stripeCustomer.create({ data: paylod });
   return result;
 };
 
-const getAllCourse = async (): Promise<Course[]> => {
-  const result = await prisma.course.findMany();
+const getAllStripeCustomer = async (): Promise<StripeCustomer[]> => {
+  const result = await prisma.stripeCustomer.findMany();
 
   return result;
 };
-const getCourseById = async (id: string): Promise<Course | null> => {
-  const result = await prisma.course.findUnique({ where: { id } });
+const getStripeCustomerById = async (
+  id: string
+): Promise<StripeCustomer | null> => {
+  const result = await prisma.stripeCustomer.findUnique({ where: { id } });
 
   return result;
 };
-const updateCourse = async (id: string, paylod: Course): Promise<Course> => {
-  const result = await prisma.course.update({ where: { id }, data: paylod });
+const updateStripeCustomer = async (
+  id: string,
+  paylod: StripeCustomer
+): Promise<StripeCustomer> => {
+  const result = await prisma.stripeCustomer.update({
+    where: { id },
+    data: paylod,
+  });
 
   return result;
 };
 
-const deleteCourse = async (id: string): Promise<Course> => {
-  const result = await prisma.course.delete({ where: { id } });
+const deleteStripeCustomer = async (id: string): Promise<StripeCustomer> => {
+  const result = await prisma.stripeCustomer.delete({ where: { id } });
 
   return result;
 };
 
-export const CourseService = {
-  createCourse,
-  getAllCourse,
-  getCourseById,
-  updateCourse,
-  deleteCourse,
+export const StripeCustomerService = {
+  createStripeCustomer,
+  getAllStripeCustomer,
+  getStripeCustomerById,
+  updateStripeCustomer,
+  deleteStripeCustomer,
 };

@@ -3,73 +3,80 @@ import httpStatus from 'http-status';
 
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { CourseService } from './stripeCustomer.service';
+import { StripeCustomerService } from './stripeCustomer.service';
 
-const createCourse: RequestHandler = catchAsync(
+const createStripeCustomer: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await CourseService.createCourse(req.body);
+    const result = await StripeCustomerService.createStripeCustomer(req.body);
     console.log(req.body);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Course created successfully',
+      message: 'StripeCustomer created successfully',
       data: result,
     });
   }
 );
 
-const getAllCourse: RequestHandler = catchAsync(
+const getAllStripeCustomer: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await CourseService.getAllCourse();
+    const result = await StripeCustomerService.getAllStripeCustomer();
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Courses fetched successfully',
+      message: 'StripeCustomers fetched successfully',
       data: result,
     });
   }
 );
 
-const getCourseById: RequestHandler = catchAsync(
+const getStripeCustomerById: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await CourseService.getCourseById(req.params.id);
+    const result = await StripeCustomerService.getStripeCustomerById(
+      req.params.id
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Course fetched successfully',
+      message: 'StripeCustomer fetched successfully',
       data: result,
     });
   }
 );
 
-const updateCourse: RequestHandler = catchAsync(
+const updateStripeCustomer: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await CourseService.updateCourse(req.params.id, req.body);
+    const result = await StripeCustomerService.updateStripeCustomer(
+      req.params.id,
+      req.body
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Course updated successfully',
+      message: 'StripeCustomer updated successfully',
       data: result,
     });
   }
 );
 
-const deleteCourse: RequestHandler = catchAsync(
+const deleteStripeCustomer: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await CourseService.deleteCourse(req.params.id);
+    const result = await StripeCustomerService.deleteStripeCustomer(
+      req.params.id
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Course deleted successfully',
+      message: 'StripeCustomer deleted successfully',
       data: result,
     });
   }
 );
 
-export const CourseController = {
-  createCourse,
-  getAllCourse,
-  getCourseById,
-  updateCourse,
-  deleteCourse,
+export const StripeCustomerController = {
+  createStripeCustomer,
+  getAllStripeCustomer,
+  getStripeCustomerById,
+  updateStripeCustomer,
+  deleteStripeCustomer,
 };

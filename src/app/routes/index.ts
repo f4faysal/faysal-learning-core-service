@@ -8,6 +8,7 @@ import { CourseRouter } from '../modules/course/course.routes';
 import { MuxDataRouter } from '../modules/muxData/muxData.routes';
 import { PurchaseRouter } from '../modules/purchase/purchase.routes';
 import { UserProgressRouter } from '../modules/userProgress/userProgress.routes';
+import { StripeCustomerRouter } from '../modules/stripeCustomer/stripeCustomer.routes';
 
 const router = express.Router();
 
@@ -44,6 +45,10 @@ const moduleRoutes = [
   {
     path: '/purchase',
     routes: PurchaseRouter,
+  },
+  {
+    path: '/stripe-customer',
+    routes: StripeCustomerRouter,
   },
 ];
 

@@ -7,12 +7,39 @@ const createCourse = async (paylod: Course): Promise<Course> => {
 };
 
 const getAllCourse = async (): Promise<Course[]> => {
-  const result = await prisma.course.findMany();
+  const result = await prisma.course.findMany({
+    include: {
+      chapters: {
+        orderBy: {
+          position: 'asc',
+        },
+      },
+      attachments: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
+  });
 
   return result;
 };
 const getCourseById = async (id: string): Promise<Course | null> => {
-  const result = await prisma.course.findUnique({ where: { id } });
+  const result = await prisma.course.findUnique({
+    where: { id },
+    include: {
+      chapters: {
+        orderBy: {
+          position: 'asc',
+        },
+      },
+      attachments: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
+  });
 
   return result;
 };

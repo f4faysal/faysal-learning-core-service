@@ -66,10 +66,34 @@ const deleteChapter: RequestHandler = catchAsync(
   }
 );
 
+const lastchapter: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await ChapterService.lastchapter(req.params.id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'last chapter fetched successfully',
+      data: result,
+    });
+  }
+);
+
+const reorderChapter = catchAsync(async (req: Request, res: Response) => {
+  const result = await ChapterService.reorderChapter(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Chapter reordered successfully',
+    data: result,
+  });
+});
+
 export const ChapterController = {
   createChapter,
   getAllChapter,
   getChapterById,
   updateChapter,
   deleteChapter,
+  lastchapter,
+  reorderChapter,
 };

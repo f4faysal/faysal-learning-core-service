@@ -1,16 +1,16 @@
 import express from 'express';
-import { CourseController } from './stripeCustomer.controller';
+import { StripeCustomerController } from './stripeCustomer.controller';
 
 const router = express.Router();
 
-router.get('/', CourseController.getAllCourse);
+router.get('/', StripeCustomerController.getAllStripeCustomer);
 router.post(
   '/',
 
-  CourseController.createCourse
+  StripeCustomerController.createStripeCustomer
 );
-router.get('/:id', CourseController.getCourseById);
-router.patch('/:id', CourseController.updateCourse);
-router.delete('/:id', CourseController.deleteCourse);
+router.get('/:id', StripeCustomerController.getStripeCustomerById);
+router.patch('/:id', StripeCustomerController.updateStripeCustomer);
+router.delete('/:id', StripeCustomerController.deleteStripeCustomer);
 
-export const CourseRouter = router;
+export const StripeCustomerRouter = router;
